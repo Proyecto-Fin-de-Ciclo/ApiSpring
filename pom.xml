@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.cdh</groupId>
-	<artifactId>apilibreria</artifactId>
+	<artifactId>apitaller</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>apilibreria</name>
 	<description>apilibreria</description>

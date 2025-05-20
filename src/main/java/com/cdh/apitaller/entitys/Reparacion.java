@@ -22,6 +22,8 @@ public class Reparacion {
     @Column(name = "Descripcion", length = 255, nullable = false)
     private String descripcion;
 
+    @ManyToOne
+    @JoinColumn(name = "trabajador_id")
     private Trabajador trabajador;
 
     @Column(name = "Hora de Inicio", nullable = false)

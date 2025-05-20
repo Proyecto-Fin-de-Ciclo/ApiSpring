@@ -1,4 +1,4 @@
-package com.cdh.apitaller.model.enums;
+package com.cdh.apitaller.enums;
 
 public enum EstadoReparacion {
 

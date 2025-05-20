@@ -1,11 +1,10 @@
 package com.cdh.apitaller.entitys;
 
-import com.cdh.apitaller.model.enums.EstadoReparacion;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -27,13 +26,11 @@ public class Reparacion {
     private Trabajador trabajador;
 
     @Column(name = "Hora de Inicio", nullable = false)
-    private LocalTime horaInicio;
+    private LocalDateTime horaInicio;
 
     @Column(name = "Hora de Fin", nullable = false)
-    private LocalTime horaFin;
+    private LocalDateTime horaFin;
 
-    @Column(name = "Dia de la reparacion", nullable = false)
-    private LocalDate diaReparacion;
 
     @ManyToMany
     @JoinTable(

@@ -1,9 +1,9 @@
 package com.cdh.apitaller.repository;
 
-import com.cdh.apitaller.entitys.Cita;
+import com.cdh.apitaller.entitys.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserClient extends JpaRepository<UserClient, Long> {
+public interface UserRepository extends JpaRepository<User, Long> {
 }

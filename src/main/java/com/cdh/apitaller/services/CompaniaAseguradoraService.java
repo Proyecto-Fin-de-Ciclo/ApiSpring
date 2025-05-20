@@ -8,7 +8,7 @@ import java.util.List;
 public interface CompaniaAseguradoraService {
     void add(CompaniaAseguradoraDTO companiaAseguradoraDTO);
     void update(CompaniaAseguradoraDTO companiaAseguradoraDTO);
-    void delete(CompaniaAseguradoraDTO companiaAseguradoraDTO);
+    void delete(Long id);
     CompaniaAseguradora findById(Long id);
     List<CompaniaAseguradora> findAll();
 }

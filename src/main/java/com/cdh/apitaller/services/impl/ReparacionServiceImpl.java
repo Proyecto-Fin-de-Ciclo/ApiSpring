@@ -5,10 +5,14 @@ import com.cdh.apitaller.entitys.Reparacion;
 import com.cdh.apitaller.mappers.ReparacionMapper;
 import com.cdh.apitaller.repository.ReparacionRepository;
 import com.cdh.apitaller.services.ReparacionService;
+import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
+@Transactional
 public class ReparacionServiceImpl implements ReparacionService {
     private final ReparacionRepository reparacionRepository;
     private final ReparacionMapper reparacionMapper;
@@ -20,9 +24,11 @@ public class ReparacionServiceImpl implements ReparacionService {
 
     @Override
     public void add(ReparacionDTO reparacionDTO) {
-        Optional<Reparacion> byId = reparacionRepository.findById(reparacionDTO.id());
-        if (byId.isPresent()) {
-            throw new RuntimeException("Reparacion with id " + reparacionDTO.id() + " already exists");
+        if (reparacionDTO.id() != null) {
+            Optional<Reparacion> byId = reparacionRepository.findById(reparacionDTO.id());
+            if (byId.isPresent()) {
+                throw new RuntimeException("Reparacion with id " + reparacionDTO.id() + " already exists");
+            }
         }
         Reparacion reparacion = reparacionMapper.dtoToEntity(reparacionDTO);
         reparacionRepository.save(reparacion);
@@ -40,13 +46,12 @@ public class ReparacionServiceImpl implements ReparacionService {
     }
 
     @Override
-    public void delete(ReparacionDTO reparacionDTO) {
-        Optional<Reparacion> byId = reparacionRepository.findById(reparacionDTO.id());
+    public void delete(Long id) {
+        Optional<Reparacion> byId = reparacionRepository.findById(id);
         if (byId.isEmpty()) {
-            throw new RuntimeException("Reparacion with id " + reparacionDTO.id() + " does not exist");
+            throw new RuntimeException("Reparacion with id " + id + " does not exist");
         }
-        Reparacion reparacion = reparacionMapper.dtoToEntity(reparacionDTO);
-        reparacionRepository.delete(reparacion);
+        reparacionRepository.delete(byId.get());
     }
 
     @Override

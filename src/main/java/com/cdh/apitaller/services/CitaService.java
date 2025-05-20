@@ -8,7 +8,7 @@ import java.util.List;
 public interface CitaService {
     void add(CitaDTO citaDTO);
     void update(CitaDTO citaDTO);
-    void delete(CitaDTO citaDTO);
+    void delete(Long id);
     Cita findById(Long id);
     List<Cita> findAll();
 }

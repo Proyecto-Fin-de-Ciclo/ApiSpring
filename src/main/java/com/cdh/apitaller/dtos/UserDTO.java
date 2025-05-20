@@ -1,7 +1,9 @@
 package com.cdh.apitaller.dtos;
 
-public record UserClientDTO(
-        Long id,
+import io.swagger.v3.oas.annotations.media.Schema;
+
+public record UserDTO(
+        @Schema(hidden=true) Long id,
         String nombre,
         String apellidos,
         String dni,

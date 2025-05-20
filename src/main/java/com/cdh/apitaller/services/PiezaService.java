@@ -8,7 +8,7 @@ import java.util.List;
 public interface PiezaService {
     void add(PiezaDTO piezaDTO);
     void update(PiezaDTO piezaDTO);
-    void delete(PiezaDTO piezaDTO);
-    Object findById(Long id);
+    void delete(Long id);
+    Pieza findById(Long id);
     List<Pieza> findAll();
 }

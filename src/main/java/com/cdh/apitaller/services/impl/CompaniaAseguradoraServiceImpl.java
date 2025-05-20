@@ -5,12 +5,14 @@ import com.cdh.apitaller.entitys.CompaniaAseguradora;
 import com.cdh.apitaller.mappers.CompaniaAseguradoraMapper;
 import com.cdh.apitaller.repository.CompaniaAseguradoraRepository;
 import com.cdh.apitaller.services.CompaniaAseguradoraService;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class CompaniaAseguradoraServiceImpl implements CompaniaAseguradoraService {
     private final CompaniaAseguradoraRepository companiaAseguradoraRepository;
     private final CompaniaAseguradoraMapper companiaAseguradoraMapper;
@@ -23,14 +25,14 @@ public class CompaniaAseguradoraServiceImpl implements CompaniaAseguradoraServic
 
     @Override
     public void add(CompaniaAseguradoraDTO companiaAseguradoraDTO) {
-        Optional<CompaniaAseguradora> byId = companiaAseguradoraRepository.findById(companiaAseguradoraDTO.id());
-
-        if (byId.isPresent()) {
-            throw new RuntimeException("CompaniaAseguradora with id " + companiaAseguradoraDTO.id() + " already exists");
+        if (companiaAseguradoraDTO.id() != null) {
+            Optional<CompaniaAseguradora> byId = companiaAseguradoraRepository.findById(companiaAseguradoraDTO.id());
+            if (byId.isPresent()) {
+                throw new RuntimeException("CompaniaAseguradora with id " + companiaAseguradoraDTO.id() + " already exists");
+            }
+            CompaniaAseguradora companiaAseguradora = companiaAseguradoraMapper.dtoToEntity(companiaAseguradoraDTO);
+            companiaAseguradoraRepository.save(companiaAseguradora);
         }
-        CompaniaAseguradora companiaAseguradora = companiaAseguradoraMapper.dtoToEntity(companiaAseguradoraDTO);
-        companiaAseguradoraRepository.save(companiaAseguradora);
-
     }
 
     @Override
@@ -44,13 +46,12 @@ public class CompaniaAseguradoraServiceImpl implements CompaniaAseguradoraServic
     }
 
     @Override
-    public void delete(CompaniaAseguradoraDTO companiaAseguradoraDTO) {
-        Optional<CompaniaAseguradora> byId = companiaAseguradoraRepository.findById(companiaAseguradoraDTO.id());
+    public void delete(Long id) {
+        Optional<CompaniaAseguradora> byId = companiaAseguradoraRepository.findById(id);
         if (byId.isEmpty()) {
-            throw new RuntimeException("CompaniaAseguradora with id " + companiaAseguradoraDTO.id() + " does not exist");
+            throw new RuntimeException("CompaniaAseguradora with id " + id + " does not exist");
         }
-        CompaniaAseguradora companiaAseguradora = companiaAseguradoraMapper.dtoToEntity(companiaAseguradoraDTO);
-        companiaAseguradoraRepository.delete(companiaAseguradora);
+        companiaAseguradoraRepository.delete(byId.get());
 
     }
 

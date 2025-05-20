@@ -8,7 +8,7 @@ import java.util.List;
 public interface ReparacionService {
     void add(ReparacionDTO reparacionDTO);
     void update(ReparacionDTO reparacionDTO);
-    void delete(ReparacionDTO reparacionDTO);
-    Object findById(Long id);
+    void delete(Long id);
+    Reparacion findById(Long id);
     List<Reparacion> findAll();
 }

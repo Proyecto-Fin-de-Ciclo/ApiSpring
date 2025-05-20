@@ -1,15 +1,17 @@
 package com.cdh.apitaller.dtos;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
 public record ReparacionDTO(
-        Long id,
+        @Schema(hidden=true) Long id,
         String descripcion,
-        Long trabajadorId,
-        LocalTime horaInicio,
-        LocalTime horaFin,
-        LocalDate diaReparacion,
-        List<Long> piezasIds
+        TrabajadorDTO trabajadorDTO,
+        LocalDateTime horaInicio,
+        LocalDateTime horaFin,
+        @Schema(hidden=true)List<Long> piezasIds
 ) {}

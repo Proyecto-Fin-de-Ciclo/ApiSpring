@@ -5,12 +5,14 @@ import com.cdh.apitaller.entitys.Trabajador;
 import com.cdh.apitaller.mappers.TrabajadorMapper;
 import com.cdh.apitaller.repository.TrabajadorRepository;
 import com.cdh.apitaller.services.TrabajadorService;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class TrabajadorServiceImpl implements TrabajadorService {
     private final TrabajadorRepository trabajadorRepository;
     private final TrabajadorMapper trabajadorMapper;
@@ -22,9 +24,11 @@ public class TrabajadorServiceImpl implements TrabajadorService {
 
     @Override
     public void add(TrabajadorDTO trabajadorDTO) {
-        Optional<Trabajador> trabajadorRepositoryById = trabajadorRepository.findById(trabajadorDTO.id());
-        if (trabajadorRepositoryById.isPresent()) {
-            throw new RuntimeException("Trabajador with id " + trabajadorDTO.id() + " already exists");
+        if (trabajadorDTO.id() != null) {
+            Optional<Trabajador> trabajadorRepositoryById = trabajadorRepository.findById(trabajadorDTO.id());
+            if (trabajadorRepositoryById.isPresent()) {
+                throw new RuntimeException("Trabajador with id " + trabajadorDTO.id() + " already exists");
+            }
         }
         Trabajador trabajador = trabajadorMapper.dtoToEntity(trabajadorDTO);
         trabajadorRepository.save(trabajador);
@@ -41,13 +45,12 @@ public class TrabajadorServiceImpl implements TrabajadorService {
     }
 
     @Override
-    public void delete(TrabajadorDTO trabajadorDTO) {
-        Optional<Trabajador> trabajadorRepositoryById = trabajadorRepository.findById(trabajadorDTO.id());
+    public void delete(Long id) {
+        Optional<Trabajador> trabajadorRepositoryById = trabajadorRepository.findById(id);
         if (trabajadorRepositoryById.isEmpty()) {
-            throw new RuntimeException("Trabajador with id " + trabajadorDTO.id() + " does not exist");
+            throw new RuntimeException("Trabajador with id " + id + " does not exist");
         }
-        Trabajador trabajador = trabajadorMapper.dtoToEntity(trabajadorDTO);
-        trabajadorRepository.delete(trabajador);
+        trabajadorRepository.delete(trabajadorRepositoryById.get());
     }
 
     @Override

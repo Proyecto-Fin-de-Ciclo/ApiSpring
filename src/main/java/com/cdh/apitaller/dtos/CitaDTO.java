@@ -1,18 +1,18 @@
 package com.cdh.apitaller.dtos;
 
-import com.cdh.apitaller.entitys.UserClient;
+import com.cdh.apitaller.entitys.User;
 import com.cdh.apitaller.entitys.Vehiculo;
-import jakarta.persistence.*;
-import lombok.NonNull;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-public record CitaDTO(Long id,
-                      UserClient userClient,
-                      Vehiculo vehiculoCita,
-                      LocalDate fecha,
-                      LocalTime hora) {
+public record CitaDTO(@Schema(hidden=true) Long id,
+                      UserDTO user,
+                      VehiculoDTO vehiculoCita,
+                      @Schema(hidden=true) LocalDateTime fecha
+                      ) {
 
 
 }

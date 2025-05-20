@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @AllArgsConstructor
@@ -19,8 +20,8 @@ public class Cita {
 
     @NonNull
     @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "userClient_id", nullable = false)
-    private UserClient userClient;
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @NonNull
     @ManyToOne(cascade = CascadeType.MERGE)
@@ -28,10 +29,8 @@ public class Cita {
     private Vehiculo vehiculoCita;
 
     @Column(name = "Fecha", nullable = false)
-    private LocalDate fecha;
+    private LocalDateTime fecha;
 
-    @Column(name = "Hora", nullable = false)
-    private LocalTime hora;
 
 
 

@@ -10,7 +10,7 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 @Entity
-public class UserClient {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -58,7 +58,7 @@ public class UserClient {
     @JsonIgnore
     private List<Vehiculo> vehiculos;
 
-    @OneToMany(mappedBy = "userClient")
+    @OneToMany(mappedBy = "user")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore

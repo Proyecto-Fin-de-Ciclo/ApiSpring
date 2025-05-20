@@ -34,7 +34,7 @@ public class Vehiculo {
     @NonNull
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "propetario_id", nullable = false)
-    private UserClient propietario;
+    private User propietario;
 
     @NonNull
     @ManyToOne(cascade = CascadeType.MERGE)

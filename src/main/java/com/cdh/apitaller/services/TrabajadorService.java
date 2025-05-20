@@ -8,7 +8,7 @@ import java.util.List;
 public interface TrabajadorService {
     void add(TrabajadorDTO trabajadorDTO);
     void update(TrabajadorDTO trabajadorDTO);
-    void delete(TrabajadorDTO trabajadorDTO);
-    Object findById(Long id);
+    void delete(Long id);
+    Trabajador findById(Long id);
     List<Trabajador> findAll();
 }

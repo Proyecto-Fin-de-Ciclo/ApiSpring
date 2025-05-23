@@ -1,7 +1,10 @@
 package com.cdh.apitaller.services.impl;
 
+
+import com.cdh.apitaller.dtos.KeycloakUserDTO;
 import com.cdh.apitaller.dtos.UserDTO;
 import com.cdh.apitaller.entitys.User;
+import com.cdh.apitaller.mappers.KeycloackMapper;
 import com.cdh.apitaller.mappers.UserMapper;
 import com.cdh.apitaller.repository.UserRepository;
 import com.cdh.apitaller.services.UserService;
@@ -16,12 +19,22 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper) {
+    private final KeycloakAdminService keycloakAdminService;
+    private final KeycloackMapper keycloackMapper;
+
+
+    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper, KeycloakAdminService keycloakAdminService, KeycloackMapper keycloackMapper) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
+        this.keycloakAdminService = keycloakAdminService;
+        this.keycloackMapper = keycloackMapper;
     }
+
     @Override
     public void addUser(UserDTO userDTO) {
+        KeycloakUserDTO kcUser = keycloackMapper.mapToKeyCloakUser(userDTO);
+        keycloakAdminService.createUser(kcUser);
+
         if (userDTO.id() != null) {
             Optional<User> userRepositoryById = userRepository.findById(userDTO.id());
             if (userRepositoryById.isPresent()) {

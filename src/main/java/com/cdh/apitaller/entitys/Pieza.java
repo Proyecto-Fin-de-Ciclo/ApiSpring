@@ -11,7 +11,7 @@ public class Pieza {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "Nombre", length = 15, nullable = false)
+    @Column(name = "Nombre", length = 55, nullable = false)
     private String Nombre;
 
     @Column(name = "Descripcion", length = 255, nullable = false)

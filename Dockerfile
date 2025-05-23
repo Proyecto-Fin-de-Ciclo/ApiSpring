@@ -1,8 +1,7 @@
 FROM amazoncorretto:17
+ARG JAR_FILE=target/apitaller-0.0.1-SNAPSHOT.jar
+COPY target/apitaller-0.0.1-SNAPSHOT.jar apitaller.jar
 
 
-ADD target/apilibreria-0.0.1-SNAPSHOT.jar apilibreria.jar
+ENTRYPOINT ["java","-jar","/apitaller.jar"]
 
-EXPOSE 8080
-
-ENTRYPOINT ["java", "-jar", "apilibreria.jar"]

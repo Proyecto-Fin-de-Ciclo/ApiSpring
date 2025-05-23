@@ -5,10 +5,11 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class DataLoader implements CommandLineRunner {
+public class Populators implements CommandLineRunner {
 
     private final UserRepository userRepository;
     private final VehiculoRepository vehiculoRepository;
@@ -18,7 +19,7 @@ public class DataLoader implements CommandLineRunner {
     private final PiezaRepository piezaRepository;
     private final ReparacionRepository reparacionRepository;
 
-    public DataLoader(UserRepository userRepository,
+    public Populators(UserRepository userRepository,
                       VehiculoRepository vehiculoRepository,
                       CitaRepository citaRepository,
                       CompaniaAseguradoraRepository aseguradoraRepository,
@@ -154,14 +155,15 @@ public class DataLoader implements CommandLineRunner {
         rep1.setTrabajador(trabajador1);
         rep1.setHoraInicio(LocalDateTime.now().minusDays(2));
         rep1.setHoraFin(LocalDateTime.now().minusDays(2).plusHours(1));
-        rep1.setPiezas(List.of(pieza1.getId()));
+        rep1.addPieza(pieza1);
 
         Reparacion rep2 = new Reparacion();
         rep2.setDescripcion("Cambio de frenos");
         rep2.setTrabajador(trabajador2);
         rep2.setHoraInicio(LocalDateTime.now().minusDays(1));
         rep2.setHoraFin(LocalDateTime.now().minusDays(1).plusHours(2));
-        rep2.setPiezas(List.of(pieza2.getId()));
+        rep2.addPieza(pieza2);
+
 
         reparacionRepository.save(rep1);
         reparacionRepository.save(rep2);

@@ -3,9 +3,10 @@ spring:
     name: ApiTaller
 
   datasource:
-    url: jdbc:mysql://localhost:3306/apiTaller?createDatabaseIfNotExist=true
-    username: harnina
+    url: jdbc:mysql://localhost:3308/apiTaller?createDatabaseIfNotExist=true
+    username: root
     password: zzzzzz
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     hibernate:
@@ -16,8 +17,19 @@ spring:
         dialect: org.hibernate.dialect.MySQLDialect
         format_sql: true
 
+  security:
+    user:
+      name: admin
+      password: admin
 server:
-  port: 8080
+  port: 3307
+
+keycloak:
+  url: http://localhost:8080        # sin /auth
+  realm: Taller-Realm
+  client-id: admin-cli
+  username: admin
+  password: admin
 
 springdoc:
   swagger-ui:

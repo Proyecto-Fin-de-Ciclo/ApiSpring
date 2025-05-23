@@ -30,9 +30,10 @@ public class CompaniaAseguradoraServiceImpl implements CompaniaAseguradoraServic
             if (byId.isPresent()) {
                 throw new RuntimeException("CompaniaAseguradora with id " + companiaAseguradoraDTO.id() + " already exists");
             }
+        }
             CompaniaAseguradora companiaAseguradora = companiaAseguradoraMapper.dtoToEntity(companiaAseguradoraDTO);
             companiaAseguradoraRepository.save(companiaAseguradora);
-        }
+
     }
 
     @Override

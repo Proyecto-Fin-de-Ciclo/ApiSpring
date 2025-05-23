@@ -6,6 +6,7 @@ import lombok.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -39,4 +40,11 @@ public class Reparacion {
             inverseJoinColumns = @JoinColumn(name = "pieza_id")
     )
     private List<Pieza> piezas;
+
+    public void addPieza(Pieza pieza){
+        if (this.piezas == null) {
+            this.piezas = new ArrayList<>();
+        }
+        piezas.add(pieza);
+    }
 }

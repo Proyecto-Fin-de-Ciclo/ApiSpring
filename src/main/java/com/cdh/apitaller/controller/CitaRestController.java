@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 @RestController
 @Tag(name = "CitaRestController", description = "Controlador para la entidad Cita")
@@ -87,4 +89,23 @@ public class CitaRestController implements GenericController<Cita,CitaDTO> {
         citaService.delete(id);
         return ResponseEntity.ok("cita eliminada correctamente");
     }
+
+    @Operation(summary = "Obtener citas por rango de fechas",
+            operationId = "getCitasPorRango",
+            description = "Este endpoint devuelve una lista de citas dentro de un rango de fechas",
+            tags = {"CitaRestController"})
+    @ApiResponse(responseCode = "200", description = "Lista de citas obtenida correctamente")
+    @GetMapping(value = "/cita/GetCitasPorRango")
+    public ResponseEntity<List<Cita>> getCitasPorRango(
+            @RequestParam String fechaInicio,
+            @RequestParam String fechaFin) throws ParseException {
+        log.info("Obteniendo citas desde {} hasta {}", fechaInicio, fechaFin);
+        LocalDateTime inicio = LocalDate.parse(fechaInicio).atStartOfDay();
+        LocalDateTime fin = LocalDate.parse(fechaFin).atTime(23, 59, 59);
+        List<Cita> citas = citaService.findAllByFechaBetween(inicio, fin);
+        return ResponseEntity.ok(citas);
+    }
+
+
+
 }

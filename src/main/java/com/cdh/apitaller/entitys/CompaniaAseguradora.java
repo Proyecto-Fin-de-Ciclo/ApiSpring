@@ -24,7 +24,7 @@ CompaniaAseguradora {
     @Column(name = "Direccion", length = 9, nullable = false)
     private String telefono;
 
-    @Column(name = "Email", length = 9, nullable = false)
+    @Column(name = "Email", length = 35, nullable = false)
     private String email;
 
     @Column(name = "concertado", nullable = false)

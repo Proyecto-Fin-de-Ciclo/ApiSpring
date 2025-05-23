@@ -10,6 +10,7 @@ import com.cdh.apitaller.services.CitaService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -80,5 +81,10 @@ private final UserRepository userRepository;
     public List<Cita> findAll() {
         return citaRepository.findAll();
 
+    }
+
+    @Override
+    public List<Cita> findAllByFechaBetween(LocalDateTime inicio, LocalDateTime fin) {
+        return citaRepository.findAllByFechaBetween(inicio, fin);
     }
 }

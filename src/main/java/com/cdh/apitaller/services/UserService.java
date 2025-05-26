@@ -10,5 +10,6 @@ public interface UserService {
     void updateClient(UserDTO userDTO);
     void deleteClient(Long id);
     User findById(Long id);
+    User findByDni(String dni);
     List<User> findAll();
 }

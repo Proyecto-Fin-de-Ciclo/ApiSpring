@@ -22,7 +22,7 @@ import java.util.List;
         @ApiResponse(responseCode = "500", description = "Internal Server Error")
 })
 @Slf4j
-public class PiezaRestController implements GenericController<Pieza, PiezaDTO>{
+public class PiezaRestController {
     private final PiezaService piezaService;
     public PiezaRestController(PiezaService piezaService) {
         this.piezaService = piezaService;
@@ -32,7 +32,6 @@ public class PiezaRestController implements GenericController<Pieza, PiezaDTO>{
             description = "Este endpoint devuelve una lista de todas las piezas", tags = {"PiezaRestController"})
     @ApiResponse(responseCode = "200", description = "Lista de piezas obtenida correctamente")
     @GetMapping(value = "/pieza/GetAllPiezas")
-    @Override
     public ResponseEntity<List<Pieza>> getAll() throws ParseException {
         log.info("Obteniendo todas las piezas");
         List<Pieza> piezas = piezaService.findAll();
@@ -44,7 +43,6 @@ public class PiezaRestController implements GenericController<Pieza, PiezaDTO>{
             description = "Este endpoint devuelve una pieza por su ID", tags = {"PiezaRestController"})
     @ApiResponse(responseCode = "200", description = "Pieza obtenida correctamente")
     @GetMapping(value = "/pieza/GetPiezaById/{id}")
-    @Override
     public ResponseEntity<Pieza> getById(@PathVariable Long id) throws ParseException {
         log.info("Obteniendo pieza con ID: {}", id);
         Pieza piezaServiceById = piezaService.findById(id);
@@ -55,29 +53,26 @@ public class PiezaRestController implements GenericController<Pieza, PiezaDTO>{
             description = "Este endpoint crea una nueva pieza", tags = {"PiezaRestController"})
     @ApiResponse(responseCode = "200", description = "Pieza creada correctamente")
     @PostMapping(value = "/pieza/CreatePieza")
-    @Override
-    public ResponseEntity<String> post(@RequestBody PiezaDTO piezaDTO) throws ParseException {
+    public ResponseEntity<PiezaDTO> post(@RequestBody PiezaDTO piezaDTO) throws ParseException {
     log.info("Creando nueva pieza");
         piezaService.add(piezaDTO);
-        return ResponseEntity.ok("Pieza creada correctamente");
+        return ResponseEntity.ok(piezaDTO);
     }
     @Operation(summary = "Actualizar una pieza",
             operationId = "updatePieza",
             description = "Este endpoint actualiza una pieza existente", tags = {"PiezaRestController"})
     @ApiResponse(responseCode = "200", description = "Pieza actualizada correctamente")
-    @PutMapping(value = "/pieza/UpdatePieza")
-    @Override
-    public ResponseEntity<String> put(@RequestBody PiezaDTO S) throws ParseException {
+    @PutMapping(value = "/pieza/UpdatePieza/{id}")
+    public ResponseEntity<PiezaDTO> put(@RequestBody PiezaDTO S) throws ParseException {
         log.info("Actualizando pieza");
         piezaService.update(S);
-        return ResponseEntity.ok("Pieza actualizada correctamente");
+        return ResponseEntity.ok(S);
     }
     @Operation(summary = "Eliminar una pieza",
             operationId = "deletePieza",
             description = "Este endpoint elimina una pieza por su ID", tags = {"PiezaRestController"})
     @ApiResponse(responseCode = "200", description = "Pieza eliminada correctamente")
     @DeleteMapping(value = "/pieza/DeletePieza/{id}")
-    @Override
     public ResponseEntity<String> delete(@PathVariable Long id) throws ParseException {
     log.info("Eliminando pieza con ID: {}", id);
         piezaService.delete(id);

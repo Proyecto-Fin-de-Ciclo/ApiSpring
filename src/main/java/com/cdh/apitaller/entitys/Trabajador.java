@@ -19,4 +19,10 @@ public class Trabajador {
   @Column(name = "CodigoEmpleado", length = 8, unique = true, nullable = false)
   private String codigoEmpleado;
 
+  @Column(name = "imagen")
+  private String imagen;
+
+  @Column(name = "Telefono", length = 15, nullable = false)
+  private String telefono;
+
   }

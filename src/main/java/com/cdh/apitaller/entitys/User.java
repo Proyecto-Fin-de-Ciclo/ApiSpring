@@ -1,6 +1,7 @@
 package com.cdh.apitaller.entitys;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -53,9 +54,8 @@ public class User {
     private String password;
 
     @OneToMany(mappedBy = "propietario")
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
     @JsonIgnore
+    @ToString.Exclude
     private List<Vehiculo> vehiculos;
 
     @OneToMany(mappedBy = "user")

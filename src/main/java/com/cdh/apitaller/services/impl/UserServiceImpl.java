@@ -75,6 +75,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User findByDni(String dni) {
+        User user = userRepository.findByDni(dni);
+        if (user == null) {
+            throw new RuntimeException("User not found");
+        }
+        return user;
+    }
+
+    @Override
     public List<User> findAll() {
         List<User> userList = userRepository.findAll();
         if (userList.isEmpty()) {

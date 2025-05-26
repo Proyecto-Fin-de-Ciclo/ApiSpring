@@ -10,5 +10,5 @@ import org.mapstruct.Mapper;
 public interface ReparacionMapper {
 
      ReparacionDTO entityToDto(Reparacion reparacion);
-     Reparacion dtoToEntity(ReparacionDTO reparacionDTO);
+
 }

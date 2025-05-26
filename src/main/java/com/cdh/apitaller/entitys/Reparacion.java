@@ -1,5 +1,6 @@
 package com.cdh.apitaller.entitys;
 
+import com.cdh.apitaller.enums.EstadoReparacion;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -29,9 +30,16 @@ public class Reparacion {
     @Column(name = "Hora de Inicio", nullable = false)
     private LocalDateTime horaInicio;
 
-    @Column(name = "Hora de Fin", nullable = false)
+    @Column(name = "Hora de Fin")
     private LocalDateTime horaFin;
 
+    @Enumerated(EnumType.STRING)
+    private EstadoReparacion estado;
+
+
+    @ManyToOne
+    @JoinColumn(name = "cliente_id")
+    private User user;
 
     @ManyToMany
     @JoinTable(

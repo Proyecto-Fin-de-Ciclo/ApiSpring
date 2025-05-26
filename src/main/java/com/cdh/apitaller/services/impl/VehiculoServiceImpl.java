@@ -37,8 +37,15 @@ public class VehiculoServiceImpl  implements VehiculoService {
         if (vehiculoRepositoryById.isEmpty()) {
             throw new RuntimeException("Vehiculo not found");
         }
-        Vehiculo vehiculo = vehiculoMapper.dtoToEntity(vehiculoDTO);
-        vehiculoRepository.save(vehiculo);
+        Vehiculo vehiculoExistente = vehiculoRepositoryById.get();
+        vehiculoExistente.setMarca(vehiculoDTO.marca());
+        vehiculoExistente.setModelo(vehiculoDTO.modelo());
+        vehiculoExistente.setMatricula(vehiculoDTO.matricula());
+        vehiculoExistente.setColor(vehiculoDTO.color());
+        vehiculoExistente.setNumeroBastidor(vehiculoDTO.numeroBastidor());
+
+
+        vehiculoRepository.save(vehiculoExistente);
     }
 
     @Override
@@ -66,5 +73,14 @@ public class VehiculoServiceImpl  implements VehiculoService {
             throw new RuntimeException("Vehiculos not found");
         }
         return vehiculoList;
+    }
+
+    @Override
+    public Vehiculo findByMatricula(String matricula) {
+    Optional<Vehiculo> vehiculoOptional = vehiculoRepository.findByMatricula(matricula);
+    if (vehiculoOptional.isEmpty()) {
+        throw new RuntimeException("Vehiculo not found with matricula: " + matricula);
+    }
+        return vehiculoOptional.get();
     }
 }

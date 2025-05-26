@@ -1,5 +1,6 @@
 package com.cdh.apitaller.entitys;
 
+import com.cdh.apitaller.enums.EstadoReparacion;
 import com.cdh.apitaller.repository.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -121,10 +122,14 @@ public class Populators implements CommandLineRunner {
         Trabajador trabajador1 = new Trabajador();
         trabajador1.setNombreCompleto("José Martínez");
         trabajador1.setCodigoEmpleado("EMP001");
+        trabajador1.setImagen("JoseMartinez.jpg");
+        trabajador1.setTelefono("612345678");
 
         Trabajador trabajador2 = new Trabajador();
         trabajador2.setNombreCompleto("Laura Gómez");
         trabajador2.setCodigoEmpleado("EMP002");
+        trabajador2.setImagen("LauraGomez.jpg");
+        trabajador2.setTelefono("698765432");
 
         trabajadorRepository.save(trabajador1);
         trabajadorRepository.save(trabajador2);
@@ -154,15 +159,17 @@ public class Populators implements CommandLineRunner {
         rep1.setDescripcion("Cambio de aceite");
         rep1.setTrabajador(trabajador1);
         rep1.setHoraInicio(LocalDateTime.now().minusDays(2));
-        rep1.setHoraFin(LocalDateTime.now().minusDays(2).plusHours(1));
         rep1.addPieza(pieza1);
+        rep1.setUser(user1);
+        rep1.setEstado(EstadoReparacion.EN_PROCESO);
 
         Reparacion rep2 = new Reparacion();
         rep2.setDescripcion("Cambio de frenos");
         rep2.setTrabajador(trabajador2);
         rep2.setHoraInicio(LocalDateTime.now().minusDays(1));
-        rep2.setHoraFin(LocalDateTime.now().minusDays(1).plusHours(2));
         rep2.addPieza(pieza2);
+        rep2.setUser(user2);
+        rep2.setEstado(EstadoReparacion.PENDIENTE);
 
 
         reparacionRepository.save(rep1);

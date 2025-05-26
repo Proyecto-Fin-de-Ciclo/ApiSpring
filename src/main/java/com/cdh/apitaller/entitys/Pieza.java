@@ -12,7 +12,7 @@ public class Pieza {
     private Long id;
 
     @Column(name = "Nombre", length = 55, nullable = false)
-    private String Nombre;
+    private String nombre;
 
     @Column(name = "Descripcion", length = 255, nullable = false)
     private String descripcion;
@@ -27,7 +27,7 @@ public class Pieza {
     private String proveedor;
 
     @Column(name = "Referencia", length = 15, nullable = false)
-    private String Referencia;
+    private String referencia;
 
 
 }

@@ -1,6 +1,9 @@
 package com.cdh.apitaller.dtos;
 
+import com.cdh.apitaller.entitys.Vehiculo;
 import io.swagger.v3.oas.annotations.media.Schema;
+
+import java.util.List;
 
 public record VehiculoDTO(
         @Schema(hidden=true)Long id,
@@ -9,6 +12,6 @@ public record VehiculoDTO(
         String matricula,
         String color,
         String numeroBastidor,
-        UserDTO propietarioId,
-        CompaniaAseguradoraDTO companiaAseguradoraId
+        UserDTO propietario,
+        CompaniaAseguradoraDTO companiaAseguradora
 ) {}

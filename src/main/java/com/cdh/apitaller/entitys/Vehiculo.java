@@ -1,6 +1,8 @@
 package com.cdh.apitaller.entitys;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -34,6 +36,8 @@ public class Vehiculo {
     @NonNull
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "propetario_id", nullable = false)
+    @JsonIgnoreProperties({"vehiculos"})
+    @ToString.Exclude
     private User propietario;
 
     @NonNull
@@ -46,6 +50,4 @@ public class Vehiculo {
     @ToString.Exclude
     @JsonIgnore
     private List<Cita> citas;
-
-
 }

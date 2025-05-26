@@ -11,4 +11,5 @@ public interface VehiculoService {
     void deleteVehiculo(Long id);
     Vehiculo findById(Long id);
     List<Vehiculo> findAll();
+    Vehiculo findByMatricula(String matricula);
 }

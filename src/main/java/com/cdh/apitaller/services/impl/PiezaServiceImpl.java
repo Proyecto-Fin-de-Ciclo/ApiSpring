@@ -6,6 +6,8 @@ import com.cdh.apitaller.mappers.PiezaMapper;
 import com.cdh.apitaller.repository.PiezaRepository;
 import com.cdh.apitaller.services.PiezaService;
 import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +18,7 @@ import java.util.Optional;
 public class PiezaServiceImpl  implements PiezaService {
     private final PiezaMapper piezaMapper;
     private final PiezaRepository piezaRepository;
+    private static final Logger log = LoggerFactory.getLogger(PiezaServiceImpl.class);
 
     public PiezaServiceImpl(PiezaMapper piezaMapper, PiezaRepository piezaRepository) {
         this.piezaMapper = piezaMapper;
@@ -30,7 +33,9 @@ public class PiezaServiceImpl  implements PiezaService {
                 throw new RuntimeException("Pieza with id " + piezaDTO.id() + " already exists");
             }
         }
+        log.info("==> Recibido PiezaDTO: {}",piezaDTO);
         Pieza pieza = piezaMapper.dtoToEntity(piezaDTO);
+        log.info("==> Recibido PiezaDTO: {}",pieza);
         piezaRepository.save(pieza);
     }
 

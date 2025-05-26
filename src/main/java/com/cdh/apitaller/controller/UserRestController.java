@@ -22,7 +22,7 @@ import java.util.List;
         @ApiResponse(responseCode = "500", description = "Internal Server Error")
 })
 @Slf4j
-public class UserRestController implements GenericController<User, UserDTO>{
+public class UserRestController {
     private final UserService userService;
     public UserRestController(UserService userService) {
         this.userService = userService;
@@ -32,7 +32,6 @@ public class UserRestController implements GenericController<User, UserDTO>{
             description = "Este endpoint devuelve una lista de todos los usuarios", tags = {"UserRestController"})
     @ApiResponse(responseCode = "200", description = "Lista de usuarios obtenida correctamente")
     @GetMapping(value = "/user/GetAllUsers")
-    @Override
     public ResponseEntity<List<User>> getAll() throws ParseException {
     log.info("Obteniendo todos los usuarios");
         List<User> users = userService.findAll();
@@ -44,7 +43,6 @@ public class UserRestController implements GenericController<User, UserDTO>{
             description = "Este endpoint devuelve un usuario por su ID", tags = {"UserRestController"})
     @ApiResponse(responseCode = "200", description = "Usuario obtenido correctamente")
     @GetMapping(value = "/user/GetUserById/{id}")
-    @Override
     public ResponseEntity<User> getById(@PathVariable Long id) throws ParseException {
         log.info("Obteniendo usuario con ID: {}", id);
         User user = userService.findById(id);
@@ -55,33 +53,41 @@ public class UserRestController implements GenericController<User, UserDTO>{
             description = "Este endpoint crea un nuevo usuario", tags = {"UserRestController"})
     @ApiResponse(responseCode = "200", description = "Usuario creado correctamente")
     @PostMapping(value = "/user/CreateUser")
-    @Override
-    public ResponseEntity<String> post(@RequestBody UserDTO userDTO) throws ParseException {
+    public ResponseEntity<UserDTO> post(@RequestBody UserDTO userDTO) throws ParseException {
         log.info("Creando nuevo usuario");
+
         userService.addUser(userDTO);
-        return ResponseEntity.ok("Usuario creado correctamente");
+        return ResponseEntity.ok(userDTO);
     }
     @Operation(summary = "Actualizar un usuario",
             operationId = "updateUser",
             description = "Este endpoint actualiza un usuario existente", tags = {"UserRestController"})
     @ApiResponse(responseCode = "200", description = "Usuario actualizado correctamente")
     @PutMapping(value = "/user/UpdateUser")
-    @Override
-    public ResponseEntity<String> put(@RequestBody UserDTO S) throws ParseException {
+    public ResponseEntity<UserDTO> put(@RequestBody UserDTO S) throws ParseException {
         log.info("Actualizando usuario");
         userService.updateClient(S);
-        return ResponseEntity.ok("Usuario actualizado correctamente");
+        return ResponseEntity.ok(S);
     }
     @Operation(summary = "Eliminar un usuario",
             operationId = "deleteUser",
             description = "Este endpoint elimina un usuario por su ID", tags = {"UserRestController"})
     @ApiResponse(responseCode = "200", description = "Usuario eliminado correctamente")
-    @PostMapping(value = "/user/DeleteUser/{id}")
-    @Override
+    @DeleteMapping(value = "/user/DeleteUser/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) throws ParseException {
         log.info("Eliminando usuario con ID: {}", id);
         User user = userService.findById(id);
         userService.deleteClient(id);
         return ResponseEntity.ok("Usuario eliminado correctamente");
+    }
+    @Operation(summary = "Obtener usuario por DNI",
+            operationId = "getUserByDni",
+            description = "Este endpoint devuelve un usuario por su DNI", tags = {"UserRestController"})
+    @ApiResponse(responseCode = "200", description = "Usuario obtenido correctamente")
+    @GetMapping(value = "/user/GetUserByDni/{dni}")
+    public ResponseEntity<User> getByDni(@PathVariable String dni) throws ParseException {
+        log.info("Obteniendo usuario con DNI: {}", dni);
+        User user = userService.findByDni(dni);
+        return ResponseEntity.ok(user);
     }
 }

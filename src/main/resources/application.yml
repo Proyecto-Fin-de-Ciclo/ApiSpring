@@ -48,3 +48,9 @@ springdoc:
     tagsSorter: alpha
   api-docs:
     path: /v3/api-docs
+
+taller:
+  nombre: "TuTaller-APP"
+  direccion: "Calle Falsa 123"
+  telefono: "600123456"
+

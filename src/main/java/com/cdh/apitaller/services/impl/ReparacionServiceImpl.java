@@ -10,6 +10,8 @@ import com.cdh.apitaller.enums.EstadoReparacion;
 import com.cdh.apitaller.mappers.OrdenDeTrabajoMapper;
 import com.cdh.apitaller.mappers.ReparacionMapper;
 import com.cdh.apitaller.mappers.TrabajadorMapper;
+import com.cdh.apitaller.mappers.UserMapper;
+import com.cdh.apitaller.repository.OrdenDeTrabajoRepository;
 import com.cdh.apitaller.repository.ReparacionRepository;
 import com.cdh.apitaller.repository.TrabajadorRepository;
 import com.cdh.apitaller.repository.UserRepository;
@@ -33,11 +35,14 @@ public class ReparacionServiceImpl implements ReparacionService {
     private final VehiculoService vehiculoService;
     private final TrabajadorMapper trabajadorMapper;
     private final OrdenDeTrabajoMapper ordenDeTrabajoMapper;
+    private final OrdenDeTrabajoRepository ordenDeTrabajoRepository;
+    private final UserMapper userMapper;
 
     public ReparacionServiceImpl(ReparacionRepository reparacionRepository, ReparacionMapper reparacionMapper,
                                   UserRepository userRepository, TrabajadorRepository trabajadorRepository,
                                   VehiculoService vehiculoService, TrabajadorMapper trabajadorMapper,
-                                  OrdenDeTrabajoMapper ordenDeTrabajoMapper) {
+                                  OrdenDeTrabajoMapper ordenDeTrabajoMapper, OrdenDeTrabajoRepository ordenDeTrabajoRepository,
+                                  UserMapper userMapper) {
         this.reparacionRepository = reparacionRepository;
         this.reparacionMapper = reparacionMapper;
         this.userRepository = userRepository;
@@ -45,7 +50,10 @@ public class ReparacionServiceImpl implements ReparacionService {
         this.vehiculoService = vehiculoService;
         this.trabajadorMapper = trabajadorMapper;
         this.ordenDeTrabajoMapper = ordenDeTrabajoMapper;
+        this.ordenDeTrabajoRepository = ordenDeTrabajoRepository;
+        this.userMapper = userMapper;
     }
+
     @Override
     public void add(ReparacionDTO reparacionDTO) {
         if (reparacionDTO.id() != null) {
@@ -66,7 +74,7 @@ public class ReparacionServiceImpl implements ReparacionService {
         if (byId.isEmpty()) {
             throw new RuntimeException("Reparacion with id " + reparacionDTO.id() + " does not exist");
         }
-        Reparacion reparacion = dtoToEntity(reparacionDTO);
+        Reparacion reparacion = reparacionMapper.dtoToEntity(reparacionDTO);
         reparacionRepository.save(reparacion);
 
     }
@@ -138,7 +146,10 @@ public class ReparacionServiceImpl implements ReparacionService {
         ordenDeTrabajo.setVehiculo(vehiculoService.findByMatricula(matricula));
         Trabajador trabajador = trabajadorMapper.dtoToEntity(reparacionDTO.trabajador());
         ordenDeTrabajo.setTrabajador(List.of(trabajador));
-        ordenDeTrabajo.setHorasDeTrabajo(0);
+        ordenDeTrabajo.setPiezas(reparacionDTO.piezas());
+        User user = userMapper.dtoToEntity(reparacionDTO.user());
+        ordenDeTrabajo.setUser(user);
+        ordenDeTrabajoRepository.save(ordenDeTrabajo);
         return ordenDeTrabajoMapper.entityToDto(ordenDeTrabajo);
     }
 

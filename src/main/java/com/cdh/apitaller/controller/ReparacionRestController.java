@@ -26,15 +26,11 @@ import java.util.List;
         @ApiResponse(responseCode = "500", description = "Internal Server Error")
 })
 @Slf4j
-public class ReparacionRestController {
+public class ReparacionRestController  implements GenericController<Reparacion, ReparacionDTO> {
     private final ReparacionService reparacionService;
-    private final OrdenDeTrabajoController ordenDeTrabajoController;
-    private final ReparacionMapper reparacionMapper;
 
-    public ReparacionRestController(ReparacionService reparacionService, OrdenDeTrabajoController ordenDeTrabajoController, ReparacionMapper reparacionMapper) {
+    public ReparacionRestController(ReparacionService reparacionService) {
         this.reparacionService = reparacionService;
-        this.ordenDeTrabajoController = ordenDeTrabajoController;
-        this.reparacionMapper = reparacionMapper;
     }
 
     @Operation(summary = "Obtener todas las reparaciones",
@@ -140,7 +136,6 @@ public class ReparacionRestController {
 
         log.info("Agregando orden de trabajo para la reparacion");
         OrdenDeTrabajoDTO ordenDeTrabajoDTO = reparacionService.addOrdenDeTrabajo(reparacionDTO, descripcion, matricula);
-        ordenDeTrabajoController.post(ordenDeTrabajoDTO);
         return ResponseEntity.ok(ordenDeTrabajoDTO);
     }
 

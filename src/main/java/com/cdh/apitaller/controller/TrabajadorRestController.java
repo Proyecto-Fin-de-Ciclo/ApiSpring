@@ -39,7 +39,7 @@ import java.util.List;
         @ApiResponse(responseCode = "500", description = "Internal Server Error")
 })
 @Slf4j
-public class TrabajadorRestController {
+public class TrabajadorRestController implements GenericController<Trabajador, TrabajadorDTO> {
     private final TrabajadorService trabajadorService;
     private static final String UPLOAD_DIR = "uploads/";
 

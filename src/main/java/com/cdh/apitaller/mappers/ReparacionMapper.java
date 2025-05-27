@@ -9,6 +9,7 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface ReparacionMapper {
 
+     Reparacion dtoToEntity(ReparacionDTO reparacionDTO);
      ReparacionDTO entityToDto(Reparacion reparacion);
 
 }

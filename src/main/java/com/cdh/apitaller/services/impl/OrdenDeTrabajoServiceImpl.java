@@ -5,11 +5,13 @@ import com.cdh.apitaller.entitys.OrdenDeTrabajo;
 import com.cdh.apitaller.mappers.OrdenDeTrabajoMapper;
 import com.cdh.apitaller.repository.OrdenDeTrabajoRepository;
 import com.cdh.apitaller.services.OrdenDeTrabajoService;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 @Service
+@Transactional
 public class OrdenDeTrabajoServiceImpl implements OrdenDeTrabajoService {
     private final OrdenDeTrabajoMapper ordenDeTrabajoMapper;
     private final OrdenDeTrabajoRepository ordenDeTrabajoRepository;

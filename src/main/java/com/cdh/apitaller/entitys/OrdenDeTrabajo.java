@@ -43,6 +43,17 @@ public class OrdenDeTrabajo {
     @Enumerated(EnumType.STRING)
     private EstadoReparacion estadoOrdenDeTrabajo;
 
-    private int horasDeTrabajo;
+    @ManyToMany
+    @JoinTable(
+            name = "orden_de_trabajo_piezas",
+            joinColumns = @JoinColumn(name = "orden_de_trabajo_id"),
+            inverseJoinColumns = @JoinColumn(name = "pieza_id")
+    )
+    private List<Pieza> piezas;
+
+    @ManyToOne
+    @JoinColumn(name = "cliente_id")
+    private User user;
+
 }
 

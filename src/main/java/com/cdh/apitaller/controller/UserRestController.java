@@ -22,7 +22,7 @@ import java.util.List;
         @ApiResponse(responseCode = "500", description = "Internal Server Error")
 })
 @Slf4j
-public class UserRestController {
+public class UserRestController implements GenericController<User, UserDTO> {
     private final UserService userService;
     public UserRestController(UserService userService) {
         this.userService = userService;

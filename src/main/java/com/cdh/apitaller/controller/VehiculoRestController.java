@@ -24,7 +24,7 @@ import java.util.List;
         @ApiResponse(responseCode = "500", description = "Internal Server Error")
 })
 @Slf4j
-public class VehiculoRestController{
+public class VehiculoRestController implements GenericController<Vehiculo, VehiculoDTO> {
     private final VehiculoService vehiculoService;
     public VehiculoRestController(VehiculoService vehiculoService) {
         this.vehiculoService = vehiculoService;

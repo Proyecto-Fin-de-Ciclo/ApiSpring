@@ -16,5 +16,5 @@ public record ReparacionDTO(
         LocalDateTime horaInicio,
         LocalDateTime horaFin,
         EstadoReparacion estado,
-        @Schema(hidden=true) List<Pieza> piezas
+        List<Pieza> piezas
 ) {}

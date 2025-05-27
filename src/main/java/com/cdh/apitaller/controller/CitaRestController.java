@@ -60,10 +60,10 @@ public class CitaRestController implements GenericController<Cita,CitaDTO> {
     @ApiResponse(responseCode = "200", description = "Cita creada correctamente")
     @PostMapping(value = "/cita/CreateCita")
     @Override
-    public ResponseEntity<String> post(@RequestBody CitaDTO citaDTO) throws ParseException {
+    public ResponseEntity<CitaDTO> post(@RequestBody CitaDTO citaDTO) throws ParseException {
         log.info("Creando nueva cita: {}", citaDTO);
         citaService.add(citaDTO);
-        return ResponseEntity.ok("cita creada correctamente");
+        return ResponseEntity.ok(citaDTO);
     }
 
     @Operation(summary = "Actualizar una cita",
@@ -72,10 +72,10 @@ public class CitaRestController implements GenericController<Cita,CitaDTO> {
     @ApiResponse(responseCode = "200", description = "Cita actualizada correctamente")
     @PutMapping(value = "/cita/UpdateCita")
     @Override
-    public ResponseEntity<String> put(@RequestBody CitaDTO citaDTO) throws ParseException {
+    public ResponseEntity<CitaDTO> put(@RequestBody CitaDTO citaDTO) throws ParseException {
         log.info("Actualizando cita: {}", citaDTO);
         citaService.update(citaDTO);
-        return ResponseEntity.ok("cita actualizada correctamente");
+        return ResponseEntity.ok(citaDTO);
     }
 
     @Operation(summary = "Eliminar una cita",

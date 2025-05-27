@@ -30,7 +30,7 @@ import java.util.List;
         @ApiResponse(responseCode = "500", description = "Internal Server Error")
 })
 @Slf4j
-public class OrdenDeTrabajoController {
+public class OrdenDeTrabajoController implements GenericController<OrdenDeTrabajo, OrdenDeTrabajoDTO> {
     private final OrdenDeTrabajoService ordenDeTrabajoService;
     private final ReparacionService reparacionService;
     private final ReparacionMapper reparacionMapper;

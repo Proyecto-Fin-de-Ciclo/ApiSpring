@@ -10,6 +10,7 @@ public record OrdenDeTrabajoDTO(
         List<TrabajadorDTO> trabajadores,
         VehiculoDTO vehiculoDTO,
         String descripcionTrabajo,
-        EstadoReparacion estadoOrdenDeTrabajo,
-        int horasDeTrabajo
+        EstadoReparacion estadoOrdenDeTrabajo
+        , List<PiezaDTO> piezas,
+        UserDTO userDTO
 ) {}

@@ -22,6 +22,9 @@ public class Trabajador {
   @Column(name = "imagen")
   private String imagen;
 
+  @Column(name = "NombreUsuarioApp", length = 15, unique = true, nullable = false)
+  private String nombreUsuarioApp;
+
   @Column(name = "Telefono", length = 15, nullable = false)
   private String telefono;
 

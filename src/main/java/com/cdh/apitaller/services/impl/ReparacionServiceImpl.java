@@ -15,6 +15,7 @@ import com.cdh.apitaller.repository.OrdenDeTrabajoRepository;
 import com.cdh.apitaller.repository.ReparacionRepository;
 import com.cdh.apitaller.repository.TrabajadorRepository;
 import com.cdh.apitaller.repository.UserRepository;
+import com.cdh.apitaller.services.PresupuestoService;
 import com.cdh.apitaller.services.ReparacionService;
 import com.cdh.apitaller.services.VehiculoService;
 import jakarta.transaction.Transactional;
@@ -32,6 +33,7 @@ public class ReparacionServiceImpl implements ReparacionService {
     private final ReparacionMapper reparacionMapper;
     private final UserRepository userRepository;
     private final TrabajadorRepository trabajadorRepository;
+    private final PresupuestoService presupuestoService;
     private final VehiculoService vehiculoService;
     private final TrabajadorMapper trabajadorMapper;
     private final OrdenDeTrabajoMapper ordenDeTrabajoMapper;
@@ -40,13 +42,14 @@ public class ReparacionServiceImpl implements ReparacionService {
 
     public ReparacionServiceImpl(ReparacionRepository reparacionRepository, ReparacionMapper reparacionMapper,
                                   UserRepository userRepository, TrabajadorRepository trabajadorRepository,
-                                  VehiculoService vehiculoService, TrabajadorMapper trabajadorMapper,
-                                  OrdenDeTrabajoMapper ordenDeTrabajoMapper, OrdenDeTrabajoRepository ordenDeTrabajoRepository,
-                                  UserMapper userMapper) {
+                                  PresupuestoService presupuestoService, VehiculoService vehiculoService,
+                                  TrabajadorMapper trabajadorMapper, OrdenDeTrabajoMapper ordenDeTrabajoMapper,
+                                  OrdenDeTrabajoRepository ordenDeTrabajoRepository, UserMapper userMapper) {
         this.reparacionRepository = reparacionRepository;
         this.reparacionMapper = reparacionMapper;
         this.userRepository = userRepository;
         this.trabajadorRepository = trabajadorRepository;
+        this.presupuestoService = presupuestoService;
         this.vehiculoService = vehiculoService;
         this.trabajadorMapper = trabajadorMapper;
         this.ordenDeTrabajoMapper = ordenDeTrabajoMapper;
@@ -145,7 +148,7 @@ public class ReparacionServiceImpl implements ReparacionService {
         ordenDeTrabajo.setEstadoOrdenDeTrabajo(reparacionDTO.estado());
         ordenDeTrabajo.setVehiculo(vehiculoService.findByMatricula(matricula));
         Trabajador trabajador = trabajadorMapper.dtoToEntity(reparacionDTO.trabajador());
-        ordenDeTrabajo.setTrabajador(List.of(trabajador));
+        ordenDeTrabajo.setTrabajadores(List.of(trabajador));
         ordenDeTrabajo.setPiezas(reparacionDTO.piezas());
         User user = userMapper.dtoToEntity(reparacionDTO.user());
         ordenDeTrabajo.setUser(user);
@@ -188,7 +191,37 @@ public class ReparacionServiceImpl implements ReparacionService {
         return existingReparacion;
 
     }
+    @Override
+    public void updateFechaFinalReparacion(Long id, LocalDateTime fechaFinalReparacion) {
+        List<Reparacion> byUserId = reparacionRepository.findByUserId(id);
+        if (byUserId.isEmpty()) {
+            throw new IllegalArgumentException("No existen reparaciones para el usuario con ID: " + id);
+        }
+        Optional<Reparacion> reparacionSinFechaFin =byUserId.stream()
+                .filter(r -> r.getHoraFin() == null)
+                .findFirst()
+                .map(r -> {r.setHoraFin(fechaFinalReparacion);
+                    return r;});
+        reparacionRepository.save(reparacionSinFechaFin.orElseThrow(() -> new IllegalArgumentException("No se encontró una reparación sin fecha de fin para el usuario con ID: " + id)));
     }
+
+    @Override
+    public Reparacion obtenerReparacionActivaConPresupuestoAceptado(Long userId, Long vehiculoId) {
+        Optional<Reparacion> reparacionActiva = reparacionRepository.findReparacionActiva(userId, vehiculoId);
+
+        if (reparacionActiva.isEmpty()) {
+            throw new RuntimeException("No hay reparaciones activas para el usuario con ID: " + userId + " y vehículo con ID: " + vehiculoId);
+        }
+
+        boolean hayPresupuestoAceptado = presupuestoService.existsByUserIdAndVehiculoIdAndAceptadoTrue(userId, vehiculoId);
+
+        if (!hayPresupuestoAceptado) {
+            throw new RuntimeException("No hay presupuesto aceptado para el usuario con ID: " + userId + " y vehículo con ID: " + vehiculoId);
+        }
+
+        return reparacionActiva.get();
+    }
+}
 
 
 

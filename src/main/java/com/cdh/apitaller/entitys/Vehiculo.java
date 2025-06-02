@@ -45,9 +45,4 @@ public class Vehiculo {
     @JoinColumn(name = "companiaAseguradora_id", nullable = false)
     private CompaniaAseguradora companiaAseguradora;
 
-    @OneToMany(mappedBy = "vehiculoCita")
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    @JsonIgnore
-    private List<Cita> citas;
 }

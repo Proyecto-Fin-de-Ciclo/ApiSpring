@@ -1,6 +1,7 @@
 package com.cdh.apitaller.dtos;
 
 import com.cdh.apitaller.entitys.Pieza;
+import com.cdh.apitaller.entitys.Vehiculo;
 import com.cdh.apitaller.enums.EstadoReparacion;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -14,6 +15,7 @@ public record ReparacionDTO(
         @JsonProperty("trabajadorDTO") TrabajadorDTO trabajador,
         @JsonProperty("userDTO") UserDTO user,
         LocalDateTime horaInicio,
+        Vehiculo vehiculo,
         LocalDateTime horaFin,
         EstadoReparacion estado,
         List<Pieza> piezas

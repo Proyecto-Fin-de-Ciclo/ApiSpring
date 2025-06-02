@@ -22,14 +22,15 @@ public class VehiculoServiceImpl  implements VehiculoService {
     }
     @Override
     public void addVehiculo(VehiculoDTO vehiculoDTO) {
-        if (vehiculoDTO.id() != null) {
-            Optional<Vehiculo> vehiculoRepositoryById = vehiculoRepository.findById(vehiculoDTO.id());
-            if (vehiculoRepositoryById.isPresent()) {
-                throw new RuntimeException("Vehiculo already exists");
-            }
-            Vehiculo vehiculo = vehiculoMapper.dtoToEntity(vehiculoDTO);
-            vehiculoRepository.save(vehiculo);
+        Vehiculo vehiculo = vehiculoMapper.dtoToEntity(vehiculoDTO);
+
+        // Verificamos por matrícula, si usas matrícula como clave única
+        Optional<Vehiculo> existing = vehiculoRepository.findByMatricula(vehiculo.getMatricula());
+        if (existing.isPresent()) {
+            throw new RuntimeException("Vehiculo con matrícula ya existe");
         }
+
+        vehiculoRepository.save(vehiculo);
     }
     @Override
     public void updateVehiculo(VehiculoDTO vehiculoDTO) {

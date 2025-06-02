@@ -3,10 +3,13 @@ package com.cdh.apitaller.services.impl;
 import com.cdh.apitaller.dtos.CitaDTO;
 import com.cdh.apitaller.entitys.Cita;
 import com.cdh.apitaller.entitys.User;
+import com.cdh.apitaller.entitys.Vehiculo;
 import com.cdh.apitaller.mappers.CitaMapper;
 import com.cdh.apitaller.repository.CitaRepository;
 import com.cdh.apitaller.repository.UserRepository;
 import com.cdh.apitaller.services.CitaService;
+import com.cdh.apitaller.services.UserService;
+import com.cdh.apitaller.services.VehiculoService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -21,12 +24,15 @@ public class CitaServiceImpl implements CitaService {
 private final CitaRepository citaRepository;
 private final CitaMapper citaMapper;
 private final UserRepository userRepository;
+private final VehiculoService vehiculoService;
 
-    public CitaServiceImpl(CitaRepository citaRepository, CitaMapper citaMapper, UserRepository userRepository) {
+    public CitaServiceImpl(CitaRepository citaRepository, CitaMapper citaMapper, UserRepository userRepository, VehiculoService vehiculoService) {
         this.citaRepository = citaRepository;
         this.citaMapper = citaMapper;
         this.userRepository = userRepository;
+        this.vehiculoService = vehiculoService;
     }
+
     @Override
     public void add(CitaDTO citaDTO) {
         if (citaDTO.id() != null) {
@@ -86,5 +92,16 @@ private final UserRepository userRepository;
     @Override
     public List<Cita> findAllByFechaBetween(LocalDateTime inicio, LocalDateTime fin) {
         return citaRepository.findAllByFechaBetween(inicio, fin);
+    }
+
+    @Override
+    public User findByUsername(String username) {
+
+        return userRepository.findByNombreUsuarioApp(username);
+    }
+
+    @Override
+    public Vehiculo findByIdVehiculo(Long id) {
+        return vehiculoService.findById(id);
     }
 }

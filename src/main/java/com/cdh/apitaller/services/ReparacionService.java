@@ -19,4 +19,6 @@ public interface ReparacionService {
     OrdenDeTrabajoDTO addOrdenDeTrabajo(ReparacionDTO reparacionDTO, String descripcion,String matricula);
     Reparacion dtoToEntity(ReparacionDTO reparacionDTO);
     Reparacion updateFinalTime(Reparacion reparacion);
+    void updateFechaFinalReparacion(Long id, LocalDateTime fechaFinalReparacion);
+    Reparacion obtenerReparacionActivaConPresupuestoAceptado(Long userId, Long vehiculoId);
 }

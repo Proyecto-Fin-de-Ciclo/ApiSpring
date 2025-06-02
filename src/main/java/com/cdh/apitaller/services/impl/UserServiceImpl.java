@@ -31,9 +31,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void addUser(UserDTO userDTO) {
+    public User addUser(UserDTO userDTO) {
         KeycloakUserDTO kcUser = keycloackMapper.mapToKeyCloakUser(userDTO);
-        keycloakAdminService.createUser(kcUser);
 
         if (userDTO.id() != null) {
             Optional<User> userRepositoryById = userRepository.findById(userDTO.id());
@@ -42,7 +41,8 @@ public class UserServiceImpl implements UserService {
             }
         }
         User user = userMapper.dtoToEntity(userDTO);
-        userRepository.save(user);
+        User save = userRepository.save(user);
+        return save;
     }
 
     @Override
@@ -90,5 +90,15 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("User not found");
         }
         return userList;
+    }
+
+    @Override
+    public User findByNombreUsuarioApp(String s) {
+        User byNombreUsuarioApp = userRepository.findByNombreUsuarioApp(s);
+        if (byNombreUsuarioApp == null) {
+            throw new RuntimeException("User not found");
+        }
+        return byNombreUsuarioApp;
+
     }
 }

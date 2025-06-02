@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Data
+@NoArgsConstructor
 @Entity
 public class Pieza {
     @Id
@@ -23,11 +24,19 @@ public class Pieza {
     @Column(name = "Stock", nullable = false)
     private int stock;
 
-    @Column(name = "Proveedor", length = 15, nullable = false)
+    @Column(name = "Proveedor", length = 150, nullable = false)
     private String proveedor;
 
     @Column(name = "Referencia", length = 15, nullable = false)
     private String referencia;
 
+    public Pieza(String nombre, String descripcion, double precio, int stock, String proveedor, String referencia) {
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.precio = precio;
+        this.stock = stock;
+        this.proveedor = proveedor;
+        this.referencia = referencia;
+    }
 
 }

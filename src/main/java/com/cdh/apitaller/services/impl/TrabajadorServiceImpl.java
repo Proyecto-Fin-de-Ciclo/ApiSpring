@@ -71,4 +71,9 @@ public class TrabajadorServiceImpl implements TrabajadorService {
         }
         return trabajadorList;
     }
+
+    @Override
+    public Trabajador getTrabajadorByNombreUsuarioApp(String nombreUsuarioApp) {
+        return trabajadorRepository.findByNombreUsuarioApp(nombreUsuarioApp);
+    }
 }

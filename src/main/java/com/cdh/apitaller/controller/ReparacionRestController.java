@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.util.List;
+
 @RestController
 @Tag(name = "ReparacionRestController", description = "Controlador para la entidad Reparacion")
 @ApiResponses(value = {
@@ -26,7 +27,7 @@ import java.util.List;
         @ApiResponse(responseCode = "500", description = "Internal Server Error")
 })
 @Slf4j
-public class ReparacionRestController  implements GenericController<Reparacion, ReparacionDTO> {
+public class ReparacionRestController implements GenericController<Reparacion, ReparacionDTO> {
     private final ReparacionService reparacionService;
 
     public ReparacionRestController(ReparacionService reparacionService) {
@@ -124,6 +125,17 @@ public class ReparacionRestController  implements GenericController<Reparacion, 
         log.info("Eliminando reparacion con ID: {}", id);
         reparacionService.delete(id);
         return ResponseEntity.ok("Reparacion eliminada correctamente");
+    }
+
+    @Operation(summary = "Obtener reparacion activa con presupuesto aceptado",
+            operationId = "obtenerReparacionActivaConPresupuestoAceptado",
+            description = "Este endpoint obtiene una reparacion activa con presupuesto aceptado por ID de usuario y vehiculo", tags = {"ReparacionRestController"})
+    @ApiResponse(responseCode = "200", description = "Reparacion activa con presupuesto aceptado obtenida correctamente")
+    @GetMapping(value = "/reparacion/ObtenerReparacionActivaConPresupuestoAceptado/{userId}/{vehiculoId}")
+    public ResponseEntity<Reparacion> obtenerReparacionActivaConPresupuestoAceptado(@PathVariable Long userId, @PathVariable Long vehiculoId) throws ParseException {
+        log.info("Obteniendo reparacion activa con presupuesto aceptado para usuario ID: {} y vehiculo ID: {}", userId, vehiculoId);
+        Reparacion reparacion = reparacionService.obtenerReparacionActivaConPresupuestoAceptado(userId, vehiculoId);
+        return ResponseEntity.ok(reparacion);
     }
 
     @PostMapping("/reparacion/AddOrdenDeTrabajo")

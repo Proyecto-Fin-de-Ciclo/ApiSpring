@@ -42,8 +42,5 @@ public class Presupuesto {
     @JoinColumn(name = "vehiculo_id")
     private Vehiculo vehiculo;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
 }
 

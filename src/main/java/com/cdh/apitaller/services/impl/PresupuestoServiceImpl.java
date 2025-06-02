@@ -41,20 +41,26 @@ public class PresupuestoServiceImpl implements PresupuestoService {
     }
 
     @Override
-    public void add(ReparacionDTO reparacionDTO,String matricula,String descripcion) {
-
+    public void add(ReparacionDTO reparacionDTO, String matricula, String descripcion) {
         System.out.println("matricula: " + matricula);
         Vehiculo vehiculo = vehiculoRepository.findByMatricula(matricula)
                 .orElseThrow(() -> new RuntimeException("Vehículo no encontrado"));
 
+        // ⚠️ Validar que no exista un presupuesto no aceptado para este vehículo
+        Optional<Presupuesto> presupuestoNoAceptado = presupuestoRepository.findByVehiculoAndAceptadoFalse(vehiculo);
+        if (presupuestoNoAceptado.isPresent()) {
+            throw new RuntimeException("Ya existe un presupuesto pendiente para este vehículo. No se puede crear otro.");
+        }
+
+        // Crear nuevo presupuesto si no hay uno pendiente
         Presupuesto presupuesto = new Presupuesto();
         presupuesto.setNombreTaller(nombreTaller);
         presupuesto.setDireccionTaller(direccionTaller);
         presupuesto.setTelefonoTaller(telefonoTaller);
         presupuesto.setDescripcionTrabajo(descripcion);
         User user = userMapper.dtoToEntity(reparacionDTO.user());
-        presupuesto.setUser(user);
         presupuesto.setPiezas(reparacionDTO.piezas());
+
         double subtotal = reparacionDTO.piezas().stream()
                 .mapToDouble(Pieza::getPrecio)
                 .sum();
@@ -62,9 +68,10 @@ public class PresupuestoServiceImpl implements PresupuestoService {
         presupuesto.setTotalConIVA(subtotal * 1.21);
         presupuesto.setVehiculo(vehiculo);
         presupuesto.setAceptado(false);
-        presupuestoRepository.save(presupuesto);
 
+        presupuestoRepository.save(presupuesto);
     }
+
 
     @Override
     public void update(PresupuestoDTO presupuestoDTO) {
@@ -78,11 +85,8 @@ public class PresupuestoServiceImpl implements PresupuestoService {
 
     @Override
     public void delete(Long id) {
-        Optional<Presupuesto> presupuestoRepositoryById = presupuestoRepository.findById(id);
-        if (presupuestoRepositoryById.isEmpty()) {
-            throw new RuntimeException("Presupuesto no encontrado");
-        }
-        presupuestoRepository.delete(presupuestoRepositoryById.get());
+
+        presupuestoRepository.deleteById(id);
 
     }
 
@@ -102,5 +106,15 @@ public class PresupuestoServiceImpl implements PresupuestoService {
             throw new RuntimeException("No hay presupuestos disponibles");
         }
         return presupuestos;
+    }
+
+    @Override
+    public boolean existsByUserIdAndVehiculoIdAndAceptadoTrue(Long userId, Long vehiculoId) {
+        return presupuestoRepository.existsByVehiculoPropietarioIdAndVehiculoIdAndAceptadoTrue(userId, vehiculoId);
+    }
+
+    @Override
+    public List<Presupuesto> findAllByAceptadoTrue() {
+        return presupuestoRepository.findAllByAceptadoTrue();
     }
 }

@@ -163,6 +163,18 @@ public class TrabajadorRestController implements GenericController<Trabajador, T
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+    @Operation(summary = "Obtener trabajador por nombre de usuario de la app",
+            operationId = "getTrabajadorByNombreUsuarioApp",
+            description = "Obtiene un trabajador usando su nombre de usuario en la app")
+    @ApiResponse(responseCode = "200", description = "Trabajador obtenido correctamente")
+    @GetMapping(value = "/trabajador/GetTrabajadorByNombreUsuarioApp/{nombreUsuarioApp}")
+    public ResponseEntity<Trabajador> getTrabajadorByNombreUsuarioApp(@PathVariable String nombreUsuarioApp) {
+        log.info("Obteniendo trabajador con nombreUsuarioApp: {}", nombreUsuarioApp);
+        Trabajador trabajador = trabajadorService.getTrabajadorByNombreUsuarioApp(nombreUsuarioApp);
+            return ResponseEntity.ok(trabajador);
+
+    }
+
 
 }
 

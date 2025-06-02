@@ -89,4 +89,17 @@ public class PresupuestoController {
         presupuestoService.delete(id);
         return ResponseEntity.ok("Presupuesto eliminado correctamente");
     }
+    @Operation(summary = "Verificar si existe un presupuesto aceptado para un vehículo",
+            operationId = "findAllByAceptadoTrue",
+            description = "Este endpoint devuelve una lista de presupuestos aceptados"
+            ,tags = {"PresupuestoController"})
+    @ApiResponse(responseCode = "200", description = "Lista de presupuestos aceptados obtenida correctamente")
+    @GetMapping("/presupuesto/FindAllByAceptadoTrue")
+    public ResponseEntity<List<Presupuesto>> findAllByAceptadoTrue() {
+        log.info("Obteniendo todos los presupuestos aceptados");
+        List<Presupuesto> presupuestos = presupuestoService.findAllByAceptadoTrue();
+        return ResponseEntity.ok(presupuestos);
+    }
+
+
 }

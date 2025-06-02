@@ -1,6 +1,7 @@
 package com.cdh.apitaller.dtos;
 
 import com.cdh.apitaller.entitys.Pieza;
+import com.cdh.apitaller.entitys.Vehiculo;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
@@ -15,6 +16,5 @@ public record PresupuestoDTO(
         double totalConIVA,
         boolean aceptado,
         List<Pieza> piezas,
-        String matricula,
-        @JsonProperty("userDTO")UserDTO userDTO
+        Vehiculo vehiculo
         ) {}

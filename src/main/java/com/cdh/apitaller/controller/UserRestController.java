@@ -48,6 +48,18 @@ public class UserRestController implements GenericController<User, UserDTO> {
         User user = userService.findById(id);
         return ResponseEntity.ok(user);
     }
+
+    @Operation(summary = "Obtener usuario por nombre de usuario",
+            operationId = "getUserByName",
+            description = "Este endpoint devuelve un usuario por su nombre de usuario", tags = {"UserRestController"})
+    @ApiResponse(responseCode = "200", description = "Usuario obtenido correctamente")
+    @GetMapping(value = "/user/GetUserByName/{name}")
+    public ResponseEntity<User> getByNameUserApp(@PathVariable String name) throws ParseException {
+        log.info("Obteniendo usuario con nombre: {}", name);
+        User user = userService.findByNombreUsuarioApp(name);
+        return ResponseEntity.ok(user);
+    }
+
     @Operation(summary = "Crear un nuevo usuario",
             operationId = "createUser",
             description = "Este endpoint crea un nuevo usuario", tags = {"UserRestController"})

@@ -11,4 +11,5 @@ public interface TrabajadorService {
     void delete(Long id);
     Trabajador findById(Long id);
     List<Trabajador> findAll();
+    Trabajador getTrabajadorByNombreUsuarioApp(String nombreUsuarioApp);
 }

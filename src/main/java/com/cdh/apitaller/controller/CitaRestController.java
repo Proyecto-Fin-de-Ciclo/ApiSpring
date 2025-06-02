@@ -2,6 +2,8 @@ package com.cdh.apitaller.controller;
 
 import com.cdh.apitaller.dtos.CitaDTO;
 import com.cdh.apitaller.entitys.Cita;
+import com.cdh.apitaller.entitys.User;
+import com.cdh.apitaller.entitys.Vehiculo;
 import com.cdh.apitaller.services.CitaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -105,6 +107,34 @@ public class CitaRestController implements GenericController<Cita,CitaDTO> {
         List<Cita> citas = citaService.findAllByFechaBetween(inicio, fin);
         return ResponseEntity.ok(citas);
     }
+
+    @Operation(
+            summary = "Obtener usuario por nombre de usuario",
+            operationId = "findByUsername",
+            description = "Este endpoint devuelve el usuario correspondiente al nombre de usuario proporcionado",
+            tags = {"UserRestController"}
+    )
+    @ApiResponse(responseCode = "200", description = "Usuario encontrado correctamente")
+    @GetMapping(value = "/cita/username/{username}")
+    public ResponseEntity<User> findByUsername(@PathVariable String username) {
+        log.info("Buscando usuario con username: {}", username);
+        User user = citaService.findByUsername(username);
+        return ResponseEntity.ok(user);
+    }
+    @Operation(
+            summary = "Obtener vehículo por ID ",
+            operationId = "findVehiculoById",
+            description = "Este endpoint devuelve el vehículo asignado a un ID",
+            tags = {"VehiculoRestController"}
+    )
+    @ApiResponse(responseCode = "200", description = "Vehículo encontrado correctamente")
+    @GetMapping(value = "/vehiculo/findById/{vehiculoId}")
+    public ResponseEntity<Vehiculo> findVehiculoByUserId(@PathVariable Long vehiculoId) {
+        log.info("Buscando vehículo con ID: {}", vehiculoId);
+        Vehiculo vehiculo = citaService.findByIdVehiculo(vehiculoId);
+        return ResponseEntity.ok(vehiculo);
+    }
+
 
 
 

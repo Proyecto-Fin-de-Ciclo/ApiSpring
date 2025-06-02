@@ -67,27 +67,5 @@ public class KeycloakAdminService {
         }
     }
 
-    public void createUser(KeycloakUserDTO keycloakUserDTO) {
-        String token = fetchToken();  // OBTENEMOS TOKEN RECIÉN AQUÍ
 
-        try {
-            String json = objectMapper.writeValueAsString(keycloakUserDTO);
-            System.out.println("JSON a enviar a Keycloak: " + json);
-
-            webClient.post()
-                    .uri("/admin/realms/" + realm + "/users")
-                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
-                    .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                    .bodyValue(keycloakUserDTO)
-                    .retrieve()
-                    .bodyToMono(Void.class)
-                    .block();
-
-            System.out.println("Usuario creado correctamente");
-
-        } catch (Exception e) {
-            System.err.println("Error creando usuario en Keycloak:");
-            e.printStackTrace();
-        }
-    }
 }

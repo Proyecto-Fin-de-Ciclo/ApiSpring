@@ -20,13 +20,9 @@ public class Cita {
 
     @NonNull
     @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false, unique = true)
     private User user;
 
-    @NonNull
-    @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "vehiculoCita_id", nullable = false)
-    private Vehiculo vehiculoCita;
 
     @Column(name = "Fecha", nullable = false)
     private LocalDateTime fecha;

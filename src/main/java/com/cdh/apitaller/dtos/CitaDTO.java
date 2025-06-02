@@ -6,7 +6,6 @@ import java.time.LocalDateTime;
 
 public record CitaDTO(@Schema(hidden=true) Long id,
                       UserDTO user,
-                      VehiculoDTO vehiculoCita,
                       @Schema(hidden=true) LocalDateTime fecha
                       ) {
 

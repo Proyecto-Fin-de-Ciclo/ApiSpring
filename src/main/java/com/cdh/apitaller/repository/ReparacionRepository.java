@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ReparacionRepository extends JpaRepository<Reparacion, Long> {
@@ -18,5 +19,9 @@ public interface ReparacionRepository extends JpaRepository<Reparacion, Long> {
             @Param("inicio") LocalDateTime inicio,
             @Param("fin") LocalDateTime fin
     );
+    @Query("SELECT r FROM Reparacion r WHERE r.user.id = :userId AND r.vehiculo.id = :vehiculoId AND r.horaFin IS NULL")
+    Optional<Reparacion> findReparacionActiva(@Param("userId") Long userId, @Param("vehiculoId") Long vehiculoId);
+
+
 }
 

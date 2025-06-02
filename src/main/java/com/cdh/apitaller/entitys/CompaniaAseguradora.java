@@ -18,7 +18,7 @@ CompaniaAseguradora {
     private Long id;
 
 
-    @Column(name = "Nombre", length = 15, unique = true, nullable = false)
+    @Column(name = "Nombre", length = 100, unique = true, nullable = false)
     private String nombre;
 
     @Column(name = "Direccion", length = 9, nullable = false)
@@ -35,4 +35,12 @@ CompaniaAseguradora {
     @ToString.Exclude
     @JsonIgnore
     private List<Vehiculo> vehiculos;
+
+    public CompaniaAseguradora(String nombre, String telefono, String email, boolean concertado) {
+        this.nombre = nombre;
+        this.telefono = telefono;
+        this.email = email;
+        this.concertado = concertado;
+    }
+
 }

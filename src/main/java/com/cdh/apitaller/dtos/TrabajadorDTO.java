@@ -7,5 +7,6 @@ public record TrabajadorDTO(
         String nombreCompleto,
         String codigoEmpleado,
         String imagen,
-        String telefono
+        String telefono,
+        String nombreUsuarioApp
 ) {}

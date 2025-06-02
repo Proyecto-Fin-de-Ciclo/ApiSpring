@@ -18,4 +18,7 @@ public interface PresupuestoService {
 
     List<Presupuesto> findAll();
 
+    boolean existsByUserIdAndVehiculoIdAndAceptadoTrue(Long userId, Long vehiculoId);
+    List<Presupuesto>findAllByAceptadoTrue();
+
 }

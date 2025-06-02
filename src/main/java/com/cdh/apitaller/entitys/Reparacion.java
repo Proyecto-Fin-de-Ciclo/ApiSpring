@@ -41,6 +41,10 @@ public class Reparacion {
     @JoinColumn(name = "cliente_id")
     private User user;
 
+    @ManyToOne
+    @JoinColumn(name = "vehiculo_id")
+    private Vehiculo vehiculo;
+
     @ManyToMany
     @JoinTable(
             name = "vehiculo_pieza",
